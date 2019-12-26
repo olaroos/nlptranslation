@@ -1,5 +1,6 @@
-            reallocation and flexibility to multiple requirements. 
-m Scratch: Translation with a Sequence to Sequence Network and Attention
+# -*- coding: utf-8 -*-
+"""
+NLP From Scratch: Translation with a Sequence to Sequence Network and Attention
 *******************************************************************************
 **Author**: `Sean Robertson <https://github.com/spro/practical-pytorch>`_
 
@@ -217,7 +218,7 @@ def readLangs(lang1, lang2, reverse=False):
         read().strip().split('\n')
 
     # Split every line into pairs and normalize
-    pairs = [[normalizeString(s) for s in l.split('\t')] for l in lines]
+    pairs = [[normalizeString(s) for s in l.split('\t')[:-1]] for l in lines]
 
     # Reverse pairs, make Lang instances
     if reverse:
@@ -254,8 +255,9 @@ eng_prefixes = (
 
 def filterPair(p):
     return len(p[0].split(' ')) < MAX_LENGTH and \
-        len(p[1].split(' ')) < MAX_LENGTH and \
-        p[1].startswith(eng_prefixes)
+        len(p[1].split(' ')) < MAX_LENGTH
+    # and \
+        # p[1].startswith(eng_prefixes)
 
 
 def filterPairs(pairs):
@@ -286,7 +288,6 @@ def prepareData(lang1, lang2, reverse=False):
 
 
 input_lang, output_lang, pairs = prepareData('swe', 'eng', True)
-print(pairs)
 print(random.choice(pairs))
 
 
@@ -799,7 +800,7 @@ evaluateRandomly(encoder1, attn_decoder1)
 #
 
 output_words, attentions = evaluate(
-    encoder1, attn_decoder1, "je suis trop froid .")
+    encoder1, attn_decoder1, "jag ar en bil")
 plt.matshow(attentions.numpy())
 
 
@@ -835,13 +836,15 @@ def evaluateAndShowAttention(input_sentence):
     showAttention(input_sentence, output_words, attentions)
 
 
-evaluateAndShowAttention("elle a cinq ans de moins que moi .")
+evaluateAndShowAttention("jag ar en frukt")
 
-evaluateAndShowAttention("elle est trop petit .")
+# evaluateAndShowAttention("elle a cinq ans de moins que moi .")
 
-evaluateAndShowAttention("je ne crains pas de mourir .")
+# evaluateAndShowAttention("elle est trop petit .")
 
-evaluateAndShowAttention("c est un jeune directeur plein de talent .")
+# evaluateAndShowAttention("je ne crains pas de mourir .")
+
+# evaluateAndShowAttention("c est un jeune directeur plein de talent .")
 
 
 ######################################################################
@@ -867,6 +870,3 @@ evaluateAndShowAttention("c est un jeune directeur plein de talent .")
 #    -  Save only the Encoder network
 #    -  Train a new Decoder for translation from there
 #
-
-        """
-
